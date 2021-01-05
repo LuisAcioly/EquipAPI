@@ -1,8 +1,11 @@
-﻿using equip.api.Filters;
+﻿using equip.api.Business.Entities;
+using equip.api.Filters;
+using equip.api.Infrastructure.Data;
 using equip.api.Models;
 using equip.api.Models.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
@@ -63,15 +66,36 @@ namespace equip.api.Controllers
         }
 
         /// <summary>
-        /// Registro de um novo usuario usuario
+        /// Este serviço permitecadastrar um usuario cadastrado não existente
         /// </summary>
-        /// <param name="registerViewModelInput"></param>
-        /// <returns></returns>
+        /// <param name="registerViewModelInput">ViewModel do registro de login</param>
+        [SwaggerResponse(statusCode: 200, description: "Sucesso ao autenticar", Type = typeof(LoginViewModelInput))]
+        [SwaggerResponse(statusCode: 400, description: "Campos obrigatórios", Type = typeof(ValidationFieldViewModelOutput))]
+        [SwaggerResponse(statusCode: 500, description: "Erro interno", Type = typeof(GenericErrorViewModel))]
         [HttpPost]
         [Route("register")]
         [CustomValidationModelState]
         public IActionResult Register(RegisterViewModelInput registerViewModelInput)
         {
+            var optionsBuilder = new DbContextOptionsBuilder<EquipDbContext>();
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Initial Catalog=Equip;Integrated Security=True");
+            EquipDbContext context = new EquipDbContext(optionsBuilder.Options);
+
+            var pendingMigration = context.Database.GetPendingMigrations();
+
+            if(pendingMigration.Count() > 0)
+            {
+                context.Database.Migrate();
+            }
+
+            var user = new User();
+            user.Login = registerViewModelInput.Login;
+            user.Password = registerViewModelInput.Password;
+            user.Email = registerViewModelInput.Email;
+
+            context.User.Add(user);
+            context.SaveChanges();
+
             return Created("", registerViewModelInput);
         }
     }

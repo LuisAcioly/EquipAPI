@@ -26,10 +26,9 @@
         </member>
         <member name="M:equip.api.Controllers.UserController.Register(equip.api.Models.Users.RegisterViewModelInput)">
             <summary>
-            Registro de um novo usuario usuario
+            Este serviço permitecadastrar um usuario cadastrado não existente
             </summary>
-            <param name="registerViewModelInput"></param>
-            <returns></returns>
+            <param name="registerViewModelInput">ViewModel do registro de login</param>
         </member>
     </members>
 </doc>
