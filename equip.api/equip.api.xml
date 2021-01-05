@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>equip.api</name>
+    </assembly>
+    <members>
+        <member name="M:equip.api.Controllers.UserController.Login(equip.api.Models.Users.LoginViewModelInput)">
+            <summary>
+            Autenticação de usuario já cadastrado e ativo
+            </summary>
+            <param name="loginViewModelInput"></param>
+            <returns>Retorna status ok, dados do usuario e o token em caso de sucesso</returns>
+        </member>
+        <member name="M:equip.api.Controllers.UserController.Register(equip.api.Models.Users.RegisterViewModelInput)">
+            <summary>
+            Registro de um novo usuario usuario
+            </summary>
+            <param name="registerViewModelInput"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

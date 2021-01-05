@@ -7,18 +7,10 @@ C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\equip.api.dll
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\ref\equip.api.dll
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\equip.api.pdb
-C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
-C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Microsoft.OpenApi.dll
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\obj\Debug\net5.0\equip.api.csprojAssemblyReference.cache
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\obj\Debug\net5.0\equip.api.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\obj\Debug\net5.0\equip.api.AssemblyInfoInputs.cache
@@ -35,3 +27,5 @@ C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\obj\Debug\net5.0\ref\equip.api.dll
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\obj\Debug\net5.0\equip.api.pdb
 C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\obj\Debug\net5.0\equip.api.genruntimeconfig.cache
+C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\equip.api.xml
+C:\Users\luisw\Documents\Avanade\Backend com .NET Core\EquipAPI\equip.api\equip.api\bin\Debug\net5.0\Swashbuckle.AspNetCore.Annotations.dll
