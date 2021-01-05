@@ -4,6 +4,19 @@
         <name>equip.api</name>
     </assembly>
     <members>
+        <member name="M:equip.api.Controllers.EquipsController.Post(equip.api.Models.Equips.EquipsViewModelInput)">
+            <summary>
+            Este serviço permite cadastrar equipamentos para o usuario autenticado
+            </summary>
+            <param name="equipsViewModelInput"></param>
+            <returns>Retorna o status 201 e dados do equipamento do usuario</returns>
+        </member>
+        <member name="M:equip.api.Controllers.EquipsController.Get">
+            <summary>
+            Este serviço permite obter todos os equipamentos ativos do usuario
+            </summary>
+            <returns>Retorna status ok e dados do equipamento do usuario</returns>
+        </member>
         <member name="M:equip.api.Controllers.UserController.Login(equip.api.Models.Users.LoginViewModelInput)">
             <summary>
             Autenticação de usuario já cadastrado e ativo
