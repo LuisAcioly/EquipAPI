@@ -24,5 +24,7 @@ namespace equip.api.Infrastructure.Data
         }
 
         public DbSet<User> User { get; set; }
+
+        public DbSet<Equip> Equip { get; set; }
     }
 }

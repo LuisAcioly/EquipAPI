@@ -1,11 +1,15 @@
 ﻿using equip.api.Business.Entities;
+using equip.api.Business.Repositories;
+using equip.api.Configuration;
 using equip.api.Filters;
 using equip.api.Infrastructure.Data;
+using equip.api.Infrastructure.Data.Repositories;
 using equip.api.Models;
 using equip.api.Models.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
@@ -21,6 +25,17 @@ namespace equip.api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+
+        private readonly IUserRepository _userRepository;
+        private readonly IAuthenticationService _authenticationService;
+
+
+        public UserController(IUserRepository userRepository, IConfiguration Configuration, IAuthenticationService authenticationService)
+        {
+            _userRepository = userRepository;
+            _authenticationService = authenticationService;
+        }
+
         /// <summary>
         /// Autenticação de usuario já cadastrado e ativo
         /// </summary>
@@ -34,29 +49,24 @@ namespace equip.api.Controllers
         [CustomValidationModelState]
         public IActionResult Login(LoginViewModelInput loginViewModelInput)
         {
+            var user = _userRepository.GetUser(loginViewModelInput.Login);
+
+            if (user == null) {
+                return BadRequest("Houve um erro ao tentar acessar");
+            }
+
+            //if (user.Password != loginViewModelInput.Password.GenerateEncryptedPassword())
+            //{
+            //    return BadRequest("Houve um erro ao tentar acessar");
+            //}
+
             var userViewModelOutput = new UserViewModelOutput() { 
-                Code = 1,
-                Login = "luisw",
-                Email = "luiswagner8@gmail.com"
+                Code = user.Code,
+                Login = user.Login,
+                Email = user.Email
             };
 
-            var secret = Base64UrlEncoder.DecodeBytes("9ST5hQe5dUNfAJOQZAtt19uiDhNtKKUt");
-            var symmetricSecurityKey = new SymmetricSecurityKey(secret);
-            var securityTokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, userViewModelOutput.Code.ToString()),
-                    new Claim(ClaimTypes.Name, userViewModelOutput.Login.ToString()),
-                    new Claim(ClaimTypes.Email, userViewModelOutput.Email.ToString()),
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-            var tokenGenerated = jwtSecurityTokenHandler.CreateToken(securityTokenDescriptor);
-            var token = jwtSecurityTokenHandler.WriteToken(tokenGenerated);
+            var token = _authenticationService.GenerateToken(userViewModelOutput);
 
             return Ok(new
             {
@@ -77,24 +87,24 @@ namespace equip.api.Controllers
         [CustomValidationModelState]
         public IActionResult Register(RegisterViewModelInput registerViewModelInput)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<EquipDbContext>();
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Initial Catalog=Equip;Integrated Security=True");
-            EquipDbContext context = new EquipDbContext(optionsBuilder.Options);
+            //var optionsBuilder = new DbContextOptionsBuilder<EquipDbContext>();
+            //optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Initial Catalog=Equip;Integrated Security=True");
+            //EquipDbContext context = new EquipDbContext(optionsBuilder.Options);
 
-            var pendingMigration = context.Database.GetPendingMigrations();
+            //var pendingMigration = context.Database.GetPendingMigrations();
 
-            if(pendingMigration.Count() > 0)
-            {
-                context.Database.Migrate();
-            }
+            //if(pendingMigration.Count() > 0)
+            //{
+            //    context.Database.Migrate();
+            //}
 
             var user = new User();
             user.Login = registerViewModelInput.Login;
             user.Password = registerViewModelInput.Password;
             user.Email = registerViewModelInput.Email;
 
-            context.User.Add(user);
-            context.SaveChanges();
+            _userRepository.Add(user);
+            _userRepository.Commit();
 
             return Created("", registerViewModelInput);
         }

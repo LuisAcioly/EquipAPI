@@ -1,8 +1,13 @@
+using equip.api.Business.Repositories;
+using equip.api.Configuration;
+using equip.api.Infrastructure.Data;
+using equip.api.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -66,7 +71,7 @@ namespace equip.api
                 c.IncludeXmlComments(xmlPath);
             });
 
-            var secret = Base64UrlEncoder.DecodeBytes("9ST5hQe5dUNfAJOQZAtt19uiDhNtKKUt");
+            var secret = Base64UrlEncoder.DecodeBytes(Configuration.GetSection("JwtConfigurations:Secret").Value);
             SymmetricSecurityKey signingKey = new SymmetricSecurityKey(secret);
 
             services.AddAuthentication(x => {
@@ -85,6 +90,13 @@ namespace equip.api
                      ValidateIssuer = false
                  };
              });
+
+            services.AddDbContext<EquipDbContext>(options => {
+                options.UseSqlServer(@$"{Configuration.GetConnectionString("DefaultConnection")}");
+            });
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthenticationService, JwtService>();
+            services.AddScoped<IEquipRepository, EquipRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

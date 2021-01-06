@@ -1,4 +1,6 @@
-﻿using equip.api.Models.Equips;
+﻿using equip.api.Business.Entities;
+using equip.api.Business.Repositories;
+using equip.api.Models.Equips;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,13 @@ namespace equip.api.Controllers
     [Authorize]
     public class EquipsController : ControllerBase
     {
+        private readonly IEquipRepository _equipRepository;
+
+        public EquipsController(IEquipRepository equipRepository)
+        {
+            _equipRepository = equipRepository;
+        }
+
         /// <summary>
         /// Este serviço permite cadastrar equipamentos para o usuario autenticado
         /// </summary>
@@ -27,7 +36,15 @@ namespace equip.api.Controllers
         [Route("")]
         public async Task<IActionResult> Post(EquipsViewModelInput equipsViewModelInput)
         {
+            Equip equip = new Equip();
+
+            equip.Name = equipsViewModelInput.Name;
+            equip.Damage = equipsViewModelInput.Damage;
             var userCode = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            equip.UserCode = userCode;
+            _equipRepository.Add(equip);
+            _equipRepository.Commit();
+
             return Created("", equipsViewModelInput);
         }
 
@@ -41,17 +58,17 @@ namespace equip.api.Controllers
         [Route("")]
         public async Task<IActionResult> Get()
         {
-            var equipments = new List<EquipViewModelOutput>();
-            //var userCode = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var userCode = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
 
-            equipments.Add(new EquipViewModelOutput()
-            {
-                Login = "",
-                Damage = 10,
-                Name = "Iron Sword"
-            });
+            var equip = _equipRepository.GetByUser(userCode)
+                .Select(s => new EquipViewModelOutput()
+                {
+                    Name = s.Name,
+                    Damage = s.Damage,
+                    Login = s.User.Login
+                }); 
 
-            return Ok(equipments);
+            return Ok(equip);
         }
     }
 }
